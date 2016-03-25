@@ -1,6 +1,6 @@
 ## SRTM Digital Elevation Model generation
 
-This repository contains the application files and scripts to generate a digital elevation model (DEM) derived from SRTM 1 arc-second data to be used with ROI_PAC, GMTSAR or GAMMA Synthetic Aperture Radar interferometry toolboxes.
+This repository contains the application files and scripts to generate a digital elevation model (DEM) derived from SRTM 1 arc-second data to be used with ROI_PAC or GAMMA Synthetic Aperture Radar interferometry toolboxes.
 
 ## Quick link
 
@@ -47,7 +47,6 @@ Log on the developer sandbox and run these commands in a shell:
 
 ```bash
 sudo yum install anaconda
-sudo yum install GMTSAR
 sudo yum install rciop
 sudo conda install imaging 
 sudo conda install scipy

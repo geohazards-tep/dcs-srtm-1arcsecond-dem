@@ -224,15 +224,6 @@ def get_needed_zipfiles(min_lon, min_lat, max_lon, max_lat):
         print "\tappending " + "n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif"
         files.append("n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif")
   
-  #getting needed tile indeces
-  #te = str(int(east)+1).zfill(2)
-  #tw = str(int(west)+1).zfill(2)
-  #tn = str(int(north)+1).zfill(2)
-  #ts = str(int(south)+1).zfill(2)
-  # setting file names needed
-  #files = list(set(["n"+te+"_e"+tn+"_1arc_v3.tif","n"+tw+"_e"+tn+"_1arc_v3.tif","n"+te+"_e"+ts+"_1arc_v3.tif","n"+tw+"_e"+ts+"_1arc_v3.tif"]))
-  #print '\tlooking for files: '+join(files,', ')
-  #files = list(set(["n37_e014_1arc_v3.tif", "n37_e015_1arc_v3.tif", "n38_e014_1arc_v3.tif", "n38_e015_1arc_v3.tif"]))
   print '\tlooking for files: '+join(files,', ')
   return files
 
