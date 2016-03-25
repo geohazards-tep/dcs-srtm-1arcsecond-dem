@@ -217,11 +217,14 @@ def get_needed_zipfiles(min_lon, min_lat, max_lon, max_lat):
 
   files = []
 
+  lat_prefix = "n"
+  lon_prefix = "e"
+
   for lat in range (int(south), int(north)):
     if lat < 0: lat_prefix = "s"
     for lon in range (int(east), int(west)):
      if lon < 0: lon_prefix = "w"
-     prd = lat_prefix + str(lat).zfill(2) + lon_prefix + str(lon).zfill(3) + "_1arc_v3.tif"
+     prd = lat_prefix + str(lat).zfill(2) + "_" + lon_prefix + str(lon).zfill(3) + "_1arc_v3.tif"
      print "\tidentified " + prd 
      if os.path.isfile(D + prd):
         print "\tappending " + prd
