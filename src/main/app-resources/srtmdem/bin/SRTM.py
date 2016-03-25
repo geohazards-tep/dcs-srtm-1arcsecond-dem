@@ -72,8 +72,8 @@ class SRTM:
     name = '' 				# Name of file 
     path = ''				# The path to the file
     byteorder = "little" # byte order
-    dim = 0.0e-00			# pixel dimetions	
-    width = 0				# number of sampels in each row
+    dim = 0.0e-00			# pixel dimensions	
+    width = 0				# number of samples in each row
     length = 0				# number of rows
     east = 0.				# longitude coordinates of upper left corner 
     north = 0.				# latitude coordinates of upper left corner 
@@ -208,19 +208,31 @@ datum_country_list Global Definition, WGS84, World
       self.im.show()
  
  
-def get_needed_zipfiles(lat,lon):
+def get_needed_zipfiles(min_lon, min_lat, max_lon, max_lat):
   # getting four corners (delta = 1 deg from lat/lon)
-  north = lat + 1
-  south = lat - 1
-  east  = lon - 1
-  west  = lon + 1
+  north = max_lat + 1
+  south = min_lat - 1
+  east  = min_lon - 1
+  west  = max_lon + 1
+
+  files = []
+
+  for lat in range (int(south), int(north)):
+    for lon in range (int(east), int(west)):
+     print "\tidentified " + D + "n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif" 
+     if os.path.isfile(D+"n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif"):
+        print "\tappending " + "n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif"
+        files.append("n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif")
+  
   #getting needed tile indeces
-  te = str(int(east+180)/5+1).zfill(2)
-  tw = str(int(west+180)/5+1).zfill(2)
-  tn = str(int(60-north)/5+1).zfill(2)
-  ts = str(int(60-south)/5+1).zfill(2)
+  #te = str(int(east)+1).zfill(2)
+  #tw = str(int(west)+1).zfill(2)
+  #tn = str(int(north)+1).zfill(2)
+  #ts = str(int(south)+1).zfill(2)
   # setting file names needed
-  files = list(set(["srtm_"+te+"_"+tn+".tif","srtm_"+tw+"_"+tn+".tif","srtm_"+te+"_"+ts+".tif","srtm_"+tw+"_"+ts+".tif"]))
+  #files = list(set(["n"+te+"_e"+tn+"_1arc_v3.tif","n"+tw+"_e"+tn+"_1arc_v3.tif","n"+te+"_e"+ts+"_1arc_v3.tif","n"+tw+"_e"+ts+"_1arc_v3.tif"]))
+  #print '\tlooking for files: '+join(files,', ')
+  #files = list(set(["n37_e014_1arc_v3.tif", "n37_e015_1arc_v3.tif", "n38_e014_1arc_v3.tif", "n38_e015_1arc_v3.tif"]))
   print '\tlooking for files: '+join(files,', ')
   return files
 
@@ -258,7 +270,7 @@ def get_dem_files(dem_files):
   dems = []
   for dem in dem_files:
     dems = dems +[SRTM(D+dem)]
-    print(D+dem)
+    print("\t" + D+dem)
   return dems
   
 def get_dems_extent(dems):
@@ -267,13 +279,16 @@ def get_dems_extent(dems):
 def stich(srtm,dem):
   srtm.data[int(round((srtm.north-dem.north)/dem.dim)):int(round((srtm.north-dem.north)/dem.dim+dem.length)),int(round((dem.east-srtm.east)/dem.dim)):int(round((dem.east-srtm.east)/dem.dim+dem.width))] = dem.data[:,:]
 
-def mk_srtm(outfile,lat,lon,M='ftp',D='./'):
-  files = get_needed_zipfiles(lat,lon)
+def mk_srtm(outfile,min_lon,min_lat,max_lon,max_lat,M='ftp',D='./'):
+  files = get_needed_zipfiles(min_lon,min_lat,max_lon,max_lat)
   #wget_zip_files(files,M,D)
   #files = unzipfiles(files)
   dems = get_dem_files(files)
   srtm = SRTM(outfile)  
   west,east,south,north,dim = get_dems_extent(dems)
+ 
+  print "\t DEM extents: " + str(west) + "," + str(south) + "," + str(east)  + "," + str(north) + " and " + str(dim) 
+
   srtm.dim = dim
   srtm.width = int(round((east-west)/dim))
   srtm.length = int(round((north-south)/dim))
@@ -282,6 +297,7 @@ def mk_srtm(outfile,lat,lon,M='ftp',D='./'):
   srtm.data = zeros((srtm.length,srtm.width),dtype=float32)
   print "\tMosaic SRTM files..."
   for dem in dems:
+    print "\tstiching SRTM file " + dem.name + "..."
     stich(srtm,dem)
   srtm.im = scipy.misc.toimage(srtm.data)
   return srtm
@@ -291,7 +307,7 @@ def mk_srtm(outfile,lat,lon,M='ftp',D='./'):
 if __name__=="__main__":
   print " ****** Mosaic SRTM DEM ******"
   try:
-    opts,args = getopt.gnu_getopt(sys.argv[3:],'ghsM:D:')
+    opts,args = getopt.gnu_getopt(sys.argv[5:],'ghsM:D:')
   except getopt.error, err:
     print str(err)
     usage()
@@ -304,19 +320,30 @@ if __name__=="__main__":
     print "Error: no output name"
     usage()
   try:
-    lat = float(sys.argv[1])
+    min_lon = float(sys.argv[1])
   except IndexError:
-    print "Error: no latitude value"
+    print "Error: no min longitude value"
     usage()
   try:
-    lon = float(sys.argv[2])
+    max_lon = float(sys.argv[2])
   except IndexError:
-    print "Error: no longitude value"
+    print "Error: no max longitude value"
     usage() 
-  if lat>90 or lat<-90:
+  try:
+    min_lat = float(sys.argv[3])
+  except IndexError:
+    print "Error: no min latitude value"
+    usage()
+  try:
+    max_lat = float(sys.argv[4])
+  except IndexError:
+    print "Error: no max latitude value"
+    usage()
+
+  if min_lat>90 or min_lat<-90 or max_lat>90 or max_lat<-90:
     print "Latitude should be in range -90:90"
     usage()
-  if lon>180 or lon<-180:
+  if min_lon>180 or min_lon<-180 or max_lon>180 or max_lon<-180:
     print "Longitude should be in range -180:180"
     usage()       
   if '-M' in opts:
@@ -327,7 +354,7 @@ if __name__=="__main__":
     D = opts['-D']
   else:
     D = './'  
-  srtm = mk_srtm(outfile,lat,lon,M,D) 
+  srtm = mk_srtm(outfile,min_lon,min_lat,max_lon,max_lat,M,D) 
   if '-s' in opts:
     print "\tSaving to jpg image..."
     srtm.imsave()

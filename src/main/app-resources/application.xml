@@ -16,7 +16,7 @@
     <node id="node_srtmdem">
       <job id="srtmdem" />
       <sources>
-        <source id="Level0_ref" title="SAR product catalogue entry(ies) in RDF format" abstract="Define the list of one or more SAR products to generate a DEM for each input product. The products are passed by references to catalogue entries in RDF format" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20100818_204734_000000172092_00129_44271_5241.N1/rdf</source>
+        <source id="Level0_ref" title="SAR product catalogue entry(ies) in RDF format" abstract="Define the list of one or more SAR products to generate a DEM for each input product. The products are passed by references to catalogue entries in RDF format" refid="string:list" scope="runtime">http://eo-virtual-archive4.esa.int/search/ASA_IM__0P/ASA_IM__0CNPAM20101221_090010_000000173097_00352_46056_1636.N1/rdf</source>
       </sources>
       <parameters />
     </node>
