@@ -1,6 +1,6 @@
 ## SRTM Digital Elevation Model generation
 
-This repository contains the application files and scripts to generate a digital elevation model (DEM) to be used with ROI_PAC, GMTSAR or GAMMA Synthetic Aperture Radar interferometry toolboxes.
+This repository contains the application files and scripts to generate a digital elevation model (DEM) derived from SRTM 1 arc-second data to be used with ROI_PAC, GMTSAR or GAMMA Synthetic Aperture Radar interferometry toolboxes.
 
 ## Quick link
 
@@ -18,7 +18,6 @@ While the Geohazards Exploitation Platform hosts this service, you may use it in
 
 To run this application you will need a Developer Cloud Sandbox, that can be either requested from:
 * ESA [Geohazards Exploitation Platform](https://geohazards-tep.eo.esa.int) for GEP early adopters;
-* ESA [Research & Service Support Portal](http://eogrid.esrin.esa.int/cloudtoolbox/) for ESA G-POD related projects and ESA registered user accounts
 * From [Terradue's Portal](http://www.terradue.com/partners), provided user registration approval.
 
 A Developer Cloud Sandbox provides Earth Sciences data access services, and helper tools for a user to implement, test and validate a scalable data processing application. It offers a dedicated virtual machine and a Cloud Computing environment.
@@ -39,7 +38,7 @@ Log on the developer cloud sandbox. Download the rpm package from https://github
 Install the downloaded package by running these commands in a shell:
 
 ```bash
-sudo yum -y install srtm-dem-<version>-ciop.x86_64.rpm
+sudo yum -y install dcs-srtm-1arcsecon-dem-<version>-ciop.x86_64.rpm
 ```
 
 #### Using the development version
@@ -47,11 +46,17 @@ sudo yum -y install srtm-dem-<version>-ciop.x86_64.rpm
 Log on the developer sandbox and run these commands in a shell:
 
 ```bash
-sudo yum install numpy scipy Xvfb GMTSAR python-devel pygtk2 python-matplotlib python-imaging rciop
+sudo yum install anaconda
+sudo yum install GMTSAR
+sudo yum install rciop
+sudo conda install imaging 
+sudo conda install scipy
+sudo conda install matplotlib
+
 cd
-git clone https://github.com/Terradue/srtm-dem.git
+git clone https://github.com/Terraduerthflow-designer/dcs-strm-1arcsecond-dem.git
 git checkout develop
-cd srtm-dem
+cd dcs-strm-1arcsecond-dem
 mvn install
 ```
 
@@ -81,10 +86,10 @@ To learn more and find information go to
 
 ### <a name="questions"></a>Questions, bugs, and suggestions
 
-Please file any bugs or questions as [issues](https://github.com/Terradue/srtm-dem/issues/new) or send in a pull request.
+Please file any bugs or questions as [issues](https://github.com/earthflow-designer/dcs-strm-1arcsecond-dem/issues/new) or send in a pull request.
 
 ### <a name="license"></a>License
 
-Copyright 2015 Terradue Srl
+Copyright 2016 Terradue Srl
 
 Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
