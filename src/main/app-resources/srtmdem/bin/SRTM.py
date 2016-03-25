@@ -218,11 +218,14 @@ def get_needed_zipfiles(min_lon, min_lat, max_lon, max_lat):
   files = []
 
   for lat in range (int(south), int(north)):
+    if lat < 0: lat_prefix = "s"
     for lon in range (int(east), int(west)):
-     print "\tidentified " + D + "n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif" 
-     if os.path.isfile(D+"n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif"):
-        print "\tappending " + "n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif"
-        files.append("n" + str(lat).zfill(2) + "_e" + str(lon).zfill(3) + "_1arc_v3.tif")
+     if lon < 0: lon_prefix = "w"
+     prd = lat_prefix + str(lat).zfill(2) + lon_prefix + str(lon).zfill(3) + "_1arc_v3.tif"
+     print "\tidentified " + prd 
+     if os.path.isfile(D + prd):
+        print "\tappending " + prd
+        files.append(prd)
   
   print '\tlooking for files: '+join(files,', ')
   return files
