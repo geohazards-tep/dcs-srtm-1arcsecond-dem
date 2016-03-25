@@ -29,7 +29,7 @@ trap cleanExit EXIT
 export PATH=/opt/anaconda/bin:/application/srtmdem/bin:$PATH 
 export DISPLAY=:99.0
 
-srtm_path="/tmp/srtm1arcsecond/"
+srtm_path="/data/srtm1arcsecond/"
 
 # retrieve the DEM format to generate
 format="`ciop-getparam format`"
