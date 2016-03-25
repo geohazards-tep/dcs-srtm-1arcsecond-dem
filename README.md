@@ -53,9 +53,9 @@ sudo conda install scipy
 sudo conda install matplotlib
 
 cd
-git clone https://github.com/Terraduerthflow-designer/dcs-strm-1arcsecond-dem.git
+git clone https://github.com/Terraduerthflow-designer/dcs-srtm-1arcsecond-dem.git
 git checkout develop
-cd dcs-strm-1arcsecond-dem
+cd dcs-srtm-1arcsecond-dem
 mvn install
 ```
 
