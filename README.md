@@ -46,7 +46,7 @@ sudo yum -y install dcs-srtm-1arcsecon-dem-<version>-ciop.x86_64.rpm
 Log on the developer sandbox and run these commands in a shell:
 
 ```bash
-sudo yum install anaconda
+sudo yum install miniconda-3.8.3
 sudo yum install rciop
 sudo conda install imaging 
 sudo conda install scipy
